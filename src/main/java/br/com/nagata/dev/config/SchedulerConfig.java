@@ -37,13 +37,19 @@ public class SchedulerConfig {
 
   @EventListener
   public void onReady(ApplicationReadyEvent event) {
+    setupTasks();
+  }
+
+  public void setupTasks() {
     log.info("Configuring tasks...");
     scheduledTasks.forEach(task -> task.cancel(false));
     scheduledTasks.clear();
-    service.generateCronTriggers().forEach(cronTrigger -> scheduledTasks.add(setup(cronTrigger)));
+    service
+        .generateCronTriggers()
+        .forEach(cronTrigger -> scheduledTasks.add(createTrigger(cronTrigger)));
   }
 
-  private ScheduledFuture<?> setup(String cronTrigger) {
+  private ScheduledFuture<?> createTrigger(String cronTrigger) {
     return taskScheduler.schedule(processScheduler::start, new CronTrigger(cronTrigger));
   }
 }
