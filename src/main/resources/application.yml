@@ -1,0 +1,41 @@
+# Propriedades da aplicacao Spring Boot
+spring:
+  main:
+    banner-mode: console
+  application:
+    name: dev-cron-trigger
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+    
+# Configuracao da aplicacao
+application:
+  backing-services:
+    database:
+      url: jdbc:h2:mem:dev;DB_CLOSE_DELAY=-1
+      username: sa
+      password:
+      pool-size: 20
+      driver-class-name: org.h2.Driver
+
+# Server
+server:
+  port: 8080
+  servlet:
+    context-path: /dev-cron-trigger
+
+# Configuracao do banco de dados
+spring.jpa:
+  show-sql: true
+  generate-ddl: true
+  database: H2
+  hibernate:
+    ddl-auto: update
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+  defer-datasource-initialization: true
+        
+spring.datasource:
+  initialization-mode: always
