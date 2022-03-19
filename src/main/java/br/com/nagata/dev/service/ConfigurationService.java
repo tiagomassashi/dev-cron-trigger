@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 public class ConfigurationService {
   private static final String SCHEDULE_PARAMETER = "PARM_SCHEDULE";
+  private static final int MINUTES_TO_SUBTRACT = 1;
+  private static final int MINUTES_TO_ADD = 1;
 
   private final ParameterRepository repository;
 
@@ -70,14 +72,15 @@ public class ConfigurationService {
           LocalTime.of(parameter.getClosingTime().getHour(), LocalTime.MIN.getMinute());
       minute =
           parameter.getOpeningTime().getMinute()
-              + (closing.getMinute() == 0 ? "" : "-" + closing.getMinute())
+              + (closing.getMinute() == LocalTime.MIN.getMinute() ? "" : "-" + closing.getMinute())
               + "/"
               + parameter.getPeriodTime().getMinute();
       hour =
           parameter.getOpeningTime().getHour()
-              + (parameter.getOpeningTime().getHour() == closing.minusMinutes(1).getHour()
+              + (parameter.getOpeningTime().getHour()
+                      == closing.minusMinutes(MINUTES_TO_SUBTRACT).getHour()
                   ? ""
-                  : "-" + closing.minusMinutes(1).getHour());
+                  : "-" + closing.minusMinutes(MINUTES_TO_SUBTRACT).getHour());
 
       String cronTrigger2 = String.format(cronTriggerFormat2, minute, hour);
       cronTriggers.add(cronTrigger2);
@@ -85,8 +88,8 @@ public class ConfigurationService {
 
       minute =
           "0-"
-              + (parameter.getClosingTime().getMinute() == 0
-                  ? parameter.getClosingTime().plusMinutes(1).getMinute()
+              + (parameter.getClosingTime().getMinute() == LocalTime.MIN.getMinute()
+                  ? parameter.getClosingTime().plusMinutes(MINUTES_TO_ADD).getMinute()
                   : parameter.getClosingTime().getMinute())
               + "/"
               + parameter.getPeriodTime().getMinute();
