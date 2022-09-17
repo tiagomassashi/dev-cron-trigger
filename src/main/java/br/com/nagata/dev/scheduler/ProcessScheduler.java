@@ -22,7 +22,7 @@ public class ProcessScheduler {
 
   public void start() {
     log.info("Starting validation for asynchronous processing...");
-    Boolean generalValidation = configurationService.validateAsynchronous();
+    boolean generalValidation = configurationService.validateAsynchronous();
 
     if (!generalValidation) {
       log.info(

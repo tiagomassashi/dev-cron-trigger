@@ -15,6 +15,7 @@ import java.util.List;
 @Log4j2
 @Service
 public class ConfigurationService {
+  private static final String CRON_EXPRESSION_LOG = "Cron Expression: {}";
   private static final String SCHEDULE_PARAMETER = "PARM_SCHEDULE";
   private static final int MINUTES_TO_SUBTRACT = 1;
   private static final int MINUTES_TO_ADD = 1;
@@ -40,7 +41,7 @@ public class ConfigurationService {
 
     log.info("Opening time: 23:15");
     log.info("Day of week: Saturday");
-    log.info("Cron Expression: {}", cronTrigger1);
+    log.info(CRON_EXPRESSION_LOG, cronTrigger1);
 
     // Runs from Monday to Friday at the time defined by the parameter
     String cronTriggerFormat2 = "0 %s %s * * MON-FRI";
@@ -63,7 +64,7 @@ public class ConfigurationService {
 
       String cronTrigger2 = String.format(cronTriggerFormat2, minute, hour);
       cronTriggers.add(cronTrigger2);
-      log.info("Cron Expression: {}", cronTrigger2);
+      log.info(CRON_EXPRESSION_LOG, cronTrigger2);
     } else {
       String minute;
       String hour;
@@ -84,7 +85,7 @@ public class ConfigurationService {
 
       String cronTrigger2 = String.format(cronTriggerFormat2, minute, hour);
       cronTriggers.add(cronTrigger2);
-      log.info("Cron Expression: {}", cronTrigger2);
+      log.info(CRON_EXPRESSION_LOG, cronTrigger2);
 
       minute =
           "0-"
@@ -97,7 +98,7 @@ public class ConfigurationService {
 
       String cronTrigger3 = String.format(cronTriggerFormat2, minute, hour);
       cronTriggers.add(cronTrigger3);
-      log.info("Cron Expression: {}", cronTrigger3);
+      log.info(CRON_EXPRESSION_LOG, cronTrigger3);
     }
 
     return cronTriggers;
